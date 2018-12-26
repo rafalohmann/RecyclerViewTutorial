@@ -29,7 +29,81 @@ public class MainActivity extends AppCompatActivity {
 
         createExampleList();
         createRecyclerView();
+        setButtons();
+    }
 
+    public void insertItem(int position) {
+        int lastIndex = mExampleList.size() - 1;
+        if (position > lastIndex)
+            position = lastIndex;
+        mExampleList.add(position, new ExampleItem(R.drawable.ic_new, "New item on position " + position, 0));
+        mAdapter.notifyItemInserted(position);
+    }
+
+    public void removeItem(int position) {
+        int lastIndex = mExampleList.size() - 1;
+        if (position <= lastIndex)
+        {
+            mExampleList.remove(position);
+            mAdapter.notifyItemRemoved(position);
+        }
+    }
+
+    public void addItem(int position) {
+        int lastIndex = mExampleList.size() - 1;
+        if (position <= lastIndex)
+        {
+            mExampleList.get(position).add();
+            mAdapter.notifyItemChanged(position);
+        }
+    }
+
+    public void changeItem(int position, String newText) {
+        int lastIndex = mExampleList.size() - 1;
+        if (position <= lastIndex)
+        {
+            mExampleList.get(position).setTitle(newText);
+            mAdapter.notifyItemChanged(position);
+        }
+    }
+
+    public void createExampleList() {
+        mExampleList = new ArrayList();
+        for (int i = 1; i <= 3; i++) {
+            mExampleList.add(new ExampleItem(R.drawable.ic_android, "Line " + i,0));
+            mExampleList.add(new ExampleItem(R.drawable.ic_audio, "Line " + i,0));
+            mExampleList.add(new ExampleItem(R.drawable.ic_sun, "Line " + i,0));
+        }
+    }
+
+    public void createRecyclerView() {
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new ExampleAdapter(mExampleList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                changeItem(position, "Clicked");
+            }
+
+            @Override
+            public void onAddClick(int position) {
+                addItem(position);
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                removeItem(position);
+            }
+        });
+    }
+
+    public void setButtons() {
         editTextInsert = findViewById(R.id.edittext_insert);
         buttonInsert = findViewById(R.id.button_insert);
         editTextRemove = findViewById(R.id.edittext_remove);
@@ -48,58 +122,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int position = Integer.parseInt(editTextRemove.getText().toString());
                 removeItem(position);
-            }
-        });
-    }
-
-    public void insertItem(int position) {
-        int lastIndex = mExampleList.size() - 1;
-        if (position > lastIndex)
-            position = lastIndex;
-        mExampleList.add(position, new ExampleItem(R.drawable.ic_new, "New item on position " + position, "Position " + position));
-        mAdapter.notifyItemInserted(position);
-    }
-
-    public void removeItem(int position) {
-        int lastIndex = mExampleList.size() - 1;
-        if (position <= lastIndex)
-        {
-            mExampleList.remove(position);
-            mAdapter.notifyItemRemoved(position);
-        }
-    }
-
-    public void changeItem(int position, String newText) {
-        int lastIndex = mExampleList.size() - 1;
-        if (position <= lastIndex)
-        {
-            mExampleList.get(position).setText1(newText);
-            mAdapter.notifyItemChanged(position);
-        }
-    }
-
-    public void createExampleList() {
-        mExampleList = new ArrayList();
-        for (int i = 1; i <= 3; i++) {
-            mExampleList.add(new ExampleItem(R.drawable.ic_android, "Line " + i,"Line " + i + ".1"));
-            mExampleList.add(new ExampleItem(R.drawable.ic_audio, "Line " + i,"Line " + i + ".1"));
-            mExampleList.add(new ExampleItem(R.drawable.ic_sun, "Line " + i,"Line " + i + ".1"));
-        }
-    }
-
-    public void createRecyclerView() {
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new ExampleAdapter(mExampleList);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                changeItem(position, "Clicked");
             }
         });
     }

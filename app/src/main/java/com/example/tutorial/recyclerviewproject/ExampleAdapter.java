@@ -16,6 +16,8 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
     public interface OnItemClickListener {
         void onItemClick(int position);
+        void onAddClick(int position);
+        void onDeleteClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -24,14 +26,18 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
-        private TextView mTextView1;
-        private TextView mTextView2;
+        private TextView mTitleTextView;
+        private TextView mQtdTextView;
+        private ImageView mAddImage;
+        private ImageView mDeleteImage;
 
         public ExampleViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
-            mTextView1 = itemView.findViewById(R.id.textView);
-            mTextView2 = itemView.findViewById(R.id.textView2);
+            mTitleTextView = itemView.findViewById(R.id.textView);
+            mQtdTextView = itemView.findViewById(R.id.textView2);
+            mAddImage = itemView.findViewById(R.id.image_add);
+            mDeleteImage = itemView.findViewById(R.id.image_delete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -40,6 +46,30 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            mAddImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onAddClick(position);
+                        }
+                    }
+                }
+            });
+
+            mDeleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDeleteClick(position);
                         }
                     }
                 }
@@ -64,8 +94,8 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         if (mExampleList != null) {
             ExampleItem exampleItem = mExampleList.get(position);
             holder.mImageView.setImageResource(exampleItem.getImageResource());
-            holder.mTextView1.setText(exampleItem.getText1());
-            holder.mTextView2.setText(exampleItem.getText2());
+            holder.mTitleTextView.setText(exampleItem.getTitle());
+            holder.mQtdTextView.setText(exampleItem.getQtdText());
         }
     }
 

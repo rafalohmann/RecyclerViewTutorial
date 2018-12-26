@@ -2,28 +2,32 @@ package com.example.tutorial.recyclerviewproject;
 
 public class ExampleItem {
     private int mImageResource;
-    private String mText1;
-    private String mText2;
+    private String mTitle;
+    private int mQtd;
 
-    public ExampleItem(int imageResource, String text1, String text2) {
+    public ExampleItem(int imageResource, String title, int qtd) {
         this.mImageResource = imageResource;
-        this.mText1 = text1;
-        this.mText2 = text2;
+        this.mTitle = title;
+        this.mQtd = qtd;
     }
 
     public int getImageResource() {
         return mImageResource;
     }
 
-    public String getText1() {
-        return mText1;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setText1(String text1) {
-        this.mText1 = text1;
+    public void setTitle(String title) {
+        this.mTitle = title;
     }
 
-    public String getText2() {
-        return mText2;
+    public void add() {
+        this.mQtd++;
+    }
+
+    public String getQtdText() {
+        return "Qtd: " + mQtd;
     }
 }
