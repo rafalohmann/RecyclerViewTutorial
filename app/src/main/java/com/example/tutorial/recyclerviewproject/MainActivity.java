@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ExampleItem> mExampleList;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ExampleAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private EditText editTextInsert;
@@ -69,6 +69,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void changeItem(int position, String newText) {
+        int lastIndex = mExampleList.size() - 1;
+        if (position <= lastIndex)
+        {
+            mExampleList.get(position).setText1(newText);
+            mAdapter.notifyItemChanged(position);
+        }
+    }
+
     public void createExampleList() {
         mExampleList = new ArrayList();
         for (int i = 1; i <= 3; i++) {
@@ -86,5 +95,12 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new ExampleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                changeItem(position, "Clicked");
+            }
+        });
     }
 }

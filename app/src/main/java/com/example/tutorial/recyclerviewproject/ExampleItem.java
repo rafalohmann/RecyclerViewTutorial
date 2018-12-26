@@ -19,6 +19,10 @@ public class ExampleItem {
         return mText1;
     }
 
+    public void setText1(String text1) {
+        this.mText1 = text1;
+    }
+
     public String getText2() {
         return mText2;
     }
